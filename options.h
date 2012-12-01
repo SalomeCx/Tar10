@@ -1,11 +1,11 @@
 #ifndef OPTIONS_H
 #define OPTIONS_H
 
-int tailleFichier(char *);
+int tailleFichier(char * fichier);
 int permissions(char* fichier);
 void modification(char* fichier);
 int aide();
-int creer_archive(char *nomArchive, char* fichiers[]);
+int creer_archive(char *nomArchive, char* fichiers[], int nbFiles);
 int ajouter(char *nomArchive, char* fichiers[]);
 int lister_archive(char *nomArchive);
 int mettre_a_jour(char *nomArchive, char* fichiers[]);

@@ -16,43 +16,55 @@
 
 char stime2[sizeof "JJ/MM/AAAA HH:MM:SS"];//[sizeof("JJ/MM/AAAA HH:MM:SS")];
 
-int creer_archive(char* nomArchive, char* tabFichiers[]){
-  int archive;
+int creer_archive(char* nomArchive, char* tabFichiers[], int nbFiles){
+  // Fichier archive.
+  FILE * archive;
+
+  // Descripteur de fichier;
   int fichier;
-  char buff;
-  int nbrFichiers = sizeof(tabFichiers)/sizeof(tabFichiers[0]);
-  archive = open(nomArchive, O_WRONLY|O_CREAT, 0777);
-  for(int i = 0; i<nbrFichiers; i++){ 
-    fichier = open(tabFichiers[i],O_RDONLY);
+  char * tmp = malloc(sizeof(char));
+
+  //char buff;
+
+  archive = fopen(nomArchive, "w+");
+  for(int i = 0; i<nbFiles; i++){ 
+    fichier = open(tabFichiers[i],O_RDONLY, S_IRUSR | S_IWUSR);
+
     int taille = tailleFichier(tabFichiers[i]);
     int permission = permissions(tabFichiers[i]);
     modification(tabFichiers[i]);
-
-    char* taille2;
     
-    write(archive, "123", sizeof(taille));
-    //write(archive, &permission, sizeof(permission));
-    // write(archive, & stime2, sizeof(stime2));
-    while((read(fichier, &buff, SEEK_SET)) > 0){
-      write(archive, &buff, 1);
-    }
+    // On écrit la taille du fichier.
+    tmp = realloc(tmp, sizeof(char)*sizeof(taille));
+    sprintf(tmp, "%d", taille);
+    fwrite(tmp, 1, sizeof(tmp), archive);
+    fwrite(" ", 1, 1, archive);
+    
+    // Les permissions du fichier.
+    tmp = realloc(tmp, sizeof(char)*sizeof(permission));
+    sprintf(tmp, "%d", permission);
+    fwrite(tmp, 1, sizeof(tmp), archive);
+    fwrite(" ", 1, 1, archive);
+
+    fwrite(stime2, 1, sizeof(stime2), archive);
+    fwrite(" ", 1, 1, archive);
+
+    //lseek(fichier, SEEK_SET, 1);
+    /*while((read(fichier, &buff, 0)) > 0){
+      printf("test %s\n", buff);
+      fwrite(&buff, sizeof(char), taille, archive);
+      }*/
     close(fichier);
-  }  
-
-
-close(archive);
-
+  }
+  free(tmp);
+  fclose(archive);
 }
 
-
+/* Retourne la taille du fichier sous forme d'un entier. */
 int tailleFichier(char* fichier){
-  /*struct stat permission;
-  if (stat(fichier, &permission) == -1){
-    exit(1);
-    }
-  return permission.st_size;*/
   int fd = open(fichier, O_RDONLY);
   off_t s = lseek(fd, 0, SEEK_END);
+
   close(fd);
   return s;
   }
@@ -65,7 +77,6 @@ int permissions(char* fichier){
 }
 
 void modification(char* fichier){
-  printf("%d\n", sizeof(stime2));
   struct stat permission;
   if (stat(fichier, &permission) == -1)
     exit(1);
@@ -77,9 +88,16 @@ void modification(char* fichier){
 }
 
 int main(int argc, char* argv[]){
-  char* tab[] = {argv[1]};
+
+  // Récupère tous les arguments dans un tableau.
+  char* tab[argc - 1];
   char* nom = "archive.tar";
-  creer_archive(nom, tab);
+  for (int i = 0; i < (argc - 1); i++)
+    {
+      tab[i] = argv[i + 1];
+    }
+
+  creer_archive(nom, tab, argc - 1);
   modification(argv[1]);
   }
   
