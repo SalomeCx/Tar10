@@ -1,3 +1,4 @@
+// -*- coding: utf-8 -*- 
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/types.h>
@@ -14,49 +15,51 @@
 #include "options.h"
 
 // Créer l'archive, et les entêtes.
-char stime2[sizeof "JJ/MM/AAAA HH:MM:SS"]; //[sizeof("JJ/MM/AAAA HH:MM:SS")];
 
-void creer(char* nomArchive, char* tabFichiers[], int nbFiles){
+/*void ecrire_fichier(char *fichier, char *buffer){
+  fwrite(buffer, 1, sizeof(buffer), fichier);
+  }*/
+void creer(char* nomArchive, struct fichier tabFichiers[], int nbFiles){
   // Fichier archive.
   FILE * archive;
 
   // Descripteur de fichier;
   int fichier;
-  char * tmp = malloc(sizeof(char));
-
+  char * tmp = malloc(sizeof(struct fichier));
+  
   archive = fopen(nomArchive, "w+");
   for(int i = 0; i<nbFiles; i++)
     { 
-      fichier = open(tabFichiers[i], O_RDONLY, S_IRUSR | S_IWUSR);
+      fichier = open(tabFichiers[i].nom, O_RDONLY, S_IRUSR | S_IWUSR);
       
-      int taille = tailleFichier(tabFichiers[i]);
-      int permission = permissions(tabFichiers[i]);
-      //modification(tabFichiers[i]);
+      tabFichiers[i].taille = tailleFichier(tabFichiers[i].nom);
+      tabFichiers[i].permission = permissions(tabFichiers[i].nom);
       
-      fwrite(tabFichiers[i], 1, sizeof(tabFichiers[i]), archive);
+      
+      //nom du fichier
+      fwrite(tabFichiers[i].nom, 1, sizeof(tabFichiers[i].nom), archive);
       
       // On écrit la taille du fichier.
-      tmp = realloc(tmp, sizeof(char)*sizeof(taille));
-      sprintf(tmp, "%d", taille);
+      sprintf(tmp, "%d", tabFichiers[i].taille);
       fwrite(tmp, 1, sizeof(tmp), archive);
       //fwrite(" ", 1, 1, archive);
       
       // Les permissions du fichier.
-      tmp = realloc(tmp, sizeof(char)*sizeof(permission));
-      sprintf(tmp, "%d", permission);
+      sprintf(tmp, "%d", tabFichiers[i].permission);
       fwrite(tmp, 1, sizeof(tmp), archive);
       //fwrite(" ", 1, 1, archive);
-      
+      modification(&tabFichiers[i]);
       // La date de dernière modification
-      fwrite(stime2, 1, sizeof(stime2), archive);
+      
+      fwrite(tabFichiers[i].date, 1, sizeof(tabFichiers[i].date), archive);
       //fwrite(" ", 1, 1, archive);
       // Pour séparer l'entête du reste.
       fputc('\n', archive);
       
-      char * buff = malloc(sizeof(char) * taille);
+      char * buff = malloc(sizeof(char) * tabFichiers[i].taille);
       lseek(fichier, 0, SEEK_SET);
-      read(fichier, buff, sizeof(char)*taille);
-      fwrite(buff, sizeof(char), taille, archive);
+      read(fichier, buff, sizeof(char)*tabFichiers[i].taille);
+      fwrite(buff, sizeof(char), tabFichiers[i].taille, archive);
       
       close(fichier);
       free(buff);
@@ -85,14 +88,14 @@ int permissions(char* fichier)
 }
 
 /* Retourne la date de dernière modification. */
-void modification(char* fichier)
+void modification(struct fichier *f)
 {
   struct stat permission;
-  if (stat(fichier, &permission) == -1)
+  if (stat((*f).nom, &permission) == -1)
     exit(1);
-  
+
   struct tm time = *localtime(&permission.st_mtime);
-  strftime (stime2, sizeof stime2, "%d/%m/%Y %H:%M:%S", &time);
+  strftime (f->date, sizeof f->date, "%d/%m/%Y %H:%M:%S", &time);
 }
 
 void list(void)
@@ -102,11 +105,11 @@ void list(void)
 int main(int argc, char* argv[]){
 
   // Récupère tous les arguments dans un tableau.
-  char* tab[argc - 1];
+  struct fichier tab[argc - 1];
   char* nom = "archive.tar";
   for (int i = 0; i < (argc - 1); i++)
     {
-      tab[i] = argv[i + 1];
+      tab[i].nom = argv[i + 1];
     }
 
   creer(nom, tab, argc - 1);

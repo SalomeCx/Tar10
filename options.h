@@ -1,11 +1,19 @@
+// -*- coding: utf-8 -*- 
 #ifndef OPTIONS_H
 #define OPTIONS_H
 
+struct fichier{
+  char *nom;
+  int taille;
+  int permission;
+  char date[sizeof "JJ/MM/AAAA HH:MM:SS"];
+};
+
 int tailleFichier(char * fichier);
 int permissions(char* fichier);
-void modification(char* fichier);
+void modification(struct fichier *f);
 int aide();
-int creer_archive(char *nomArchive, char* fichiers[], int nbFiles);
+int creer_archive(char *nomArchive, struct fichier fichiers[], int nbFiles);
 int ajouter(char *nomArchive, char* fichiers[]);
 int lister_archive(char *nomArchive);
 int mettre_a_jour(char *nomArchive, char* fichiers[]);
