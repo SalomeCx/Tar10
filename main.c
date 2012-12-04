@@ -6,6 +6,16 @@
 #include "options.h"
 
 int main(int argc, char *argv[]) {
+  
+  // Récupère tous les arguments dans un tableau.
+  char* tab[argc - 1];
+  char* nom = "archive.tar";
+  for (int i = 0; i < (argc - 1); i++)
+    {
+      tab[i] = argv[i + 1];
+    }
+  liste(nom, tab, argc - 1);
+
   int opt;
   char format[]="hvtx:crufzdm:";
   

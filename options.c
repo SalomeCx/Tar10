@@ -88,17 +88,4 @@ void liste(char* nomArchive, char* tabFichiers[], int nbFiles)
   fclose(archive);
 }
 
-int main(int argc, char* argv[]){
-
-  // Récupère tous les arguments dans un tableau.
-  char* tab[argc - 1];
-  char* nom = "archive.tar";
-  for (int i = 0; i < (argc - 1); i++)
-    {
-      tab[i] = argv[i + 1];
-    }
-
-  liste(nom, tab, argc - 1);
-  //  modification(argv[1]);
-}
   
