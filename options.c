@@ -6,13 +6,13 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <unistd.h>
-#include <stdio.h>
 #include <stdint.h>
 #include <netinet/in.h>
 #include <inttypes.h>
 #include <string.h>
 #include <time.h>
 #include "options.h"
+#include "ecrire.h"
 
 // Créer l'archive, et les entêtes.
 
@@ -27,49 +27,24 @@ FILE* creer_archive(char* nomArchive){
 
 void ajouter_fichier(FILE* archive, char* nomFichier){
 
-
-  // Descripteur de fichier;
-  int fichier;
   char * tmp = malloc(sizeof(struct fichier));
   
   struct fichier f;
   f.nom=nomFichier;
-  fichier = open(f.nom, O_RDONLY, S_IRUSR | S_IWUSR);
 
-    
-  f.taille = tailleFichier(f.nom);
-  f.permission = permissions(f.nom);
-  
-    
-  //nom du fichier
-  fwrite(f.nom, 1, sizeof(f.nom), archive);
-  
-  // On écrit la taille du fichier.
-  sprintf(tmp, "%d", f.taille);
-  fwrite(tmp, 1, sizeof(tmp), archive);
-  //fwrite(" ", 1, 1, archive);
-  
-  // Les permissions du fichier.
-  sprintf(tmp, "%d", f.permission);
-  fwrite(tmp, 1, sizeof(tmp), archive);
-  //fwrite(" ", 1, 1, archive);
-  modification(&f);
-  // La date de dernière modification
-  
-  fwrite(f.date, 1, sizeof(f.date), archive);
-  //fwrite(" ", 1, 1, archive);
+  ecrire_nom(f,archive);    
+
+  ecrire_taille(f,archive,tmp);
+
+  ecrire_permissions(f,archive,tmp);
+
+  ecrire_modification(f,archive);
 
   // Pour séparer l'entête du reste.
   fputc('\n', archive);
   
-  //ecrire le contenu du fichier
-  char * buff = malloc(sizeof(char) * f.taille);
-  lseek(fichier, 0, SEEK_SET);
-  read(fichier, buff, sizeof(char)*f.taille);
-  fwrite(buff, sizeof(char), f.taille, archive);
-  
-  close(fichier);
-  free(buff);
+  ecrire_contenu(f,archive);
+
   free(tmp);
 }
 
@@ -103,7 +78,7 @@ void modification(struct fichier *f)
   strftime (f->date, sizeof f->date, "%d/%m/%Y %H:%M:%S", &time);
 }
 
-void list(char* nomArchive, char* tabFichiers[], int nbFiles)
+void liste(char* nomArchive, char* tabFichiers[], int nbFiles)
 {
   FILE* archive=creer_archive(nomArchive);
   for(int i = 0; i<nbFiles; i++)
@@ -123,7 +98,7 @@ int main(int argc, char* argv[]){
       tab[i] = argv[i + 1];
     }
 
-  list(nom, tab, argc - 1);
+  liste(nom, tab, argc - 1);
   //  modification(argv[1]);
 }
   
