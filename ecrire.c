@@ -15,6 +15,7 @@
 
 void ecrire_taille(struct fichier f, FILE* archive, char* tmp){
   f.taille = tailleFichier(f.nom);
+  
   // On écrit la taille du fichier.
   sprintf(tmp, "%d", f.taille);
   fwrite(tmp, 1, sizeof(tmp), archive);
@@ -23,7 +24,7 @@ void ecrire_taille(struct fichier f, FILE* archive, char* tmp){
 
 void ecrire_nom(struct fichier f, FILE* archive){
   //nom du fichier
-  fwrite(f.nom, 1, sizeof(f.nom), archive);
+   fwrite(f.nom, 1, strlen(f.nom), archive);
   fputc('\n', archive);
 }
 

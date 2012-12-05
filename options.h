@@ -3,7 +3,7 @@
 #define OPTIONS_H
 
 struct fichier{
-  char *nom;
+  char* nom;
   int taille;
   int permissions;
   char date[sizeof "JJ/MM/AAAA HH:MM:SS"];

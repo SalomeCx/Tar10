@@ -28,8 +28,8 @@ FILE* creer_archive(char* nomArchive){
 void ajouter_fichier(FILE* archive, char* nomFichier){
 
   char * tmp = malloc(sizeof(struct fichier));
-  
   struct fichier f;
+  //f.nom=malloc(sizeof(nomFichier));
   f.nom=nomFichier;
 
   ecrire_nom(f,archive);    
