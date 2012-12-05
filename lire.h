@@ -2,7 +2,9 @@
 #ifndef LIRE_H
 #define LIRE_H
 
-char * lireNom(char * nomArchive);
+#include "header.h"
+
+int lireEntetes(char * nomArchive);
 
 
 #endif

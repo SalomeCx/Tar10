@@ -5,18 +5,28 @@
 #include <getopt.h>
 #include "options.h"
 #include "header.h"
+#include "lire.h"
 
 int main(int argc, char *argv[]) {
   
   // Récupère tous les arguments dans un tableau.
   char* tab[argc - 1];
-  char* nom = "archive.txt";
+  char* nomArchive = "archive.txt";
   for (int i = 0; i < (argc - 1); i++)
     {
       tab[i] = argv[i + 1];
     }
 
-  liste(nom, tab, argc - 1);
+  liste(nomArchive, tab, argc - 1);
+
+  //Fichier * headers = malloc(sizeof(Fichier) * 10);
+
+  int nbEntetes = lireEntetes(nomArchive);
+  printf("%d\n", nbEntetes);
+  //printf("%lu\n", sizeof(nom));
+  //printf("%s", nomLire);
+
+  //free(headers);
 
   int opt;
   char format[]="hvtx:crufzdm:";

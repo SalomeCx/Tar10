@@ -8,11 +8,13 @@ struct fichier{
   char* date/*[sizeof "JJ/MM/AAAA HH:MM:SS"]*/;
 };
 
+typedef struct fichier * Fichier;
+
 char* getNom(char * fichier);
 int tailleFichier(char* fichier);
 int permissions(char* fichier);
-void modification(struct fichier *f);
-struct fichier * initHeader(char * fichier);
-void rmHeader(struct fichier * header);
+void modification(Fichier *f);
+Fichier initHeader(char * fichier);
+void rmHeader(Fichier header);
 
 #endif

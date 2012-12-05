@@ -14,39 +14,39 @@
 #include "options.h"
 
 
-void ecrireNom(struct fichier hd, FILE* archive){
+void ecrireNom(Fichier hd, FILE* archive){
   //nom du fichier
-  fwrite(hd.nom, 1, strlen(hd.nom), archive);
+  fwrite(hd->nom, 1, strlen(hd->nom), archive);
   fputc('\n', archive);
 }
 
-void ecrireTaille(struct fichier hd, FILE* archive, char* tmp){
-  sprintf(tmp, "%d", hd.taille);
+void ecrireTaille(Fichier hd, FILE* archive, char* tmp){
+  sprintf(tmp, "%d", hd->taille);
   fwrite(tmp, 1, sizeof(tmp), archive);
   fputc('\n', archive);
 }
 
-void ecrirePermissions(struct fichier hd, FILE* archive, char* tmp){
-  sprintf(tmp, "%d", hd.permissions);
+void ecrirePermissions(Fichier hd, FILE* archive, char* tmp){
+  sprintf(tmp, "%d", hd->permissions);
   fwrite(tmp, 1, sizeof(tmp), archive);
   fputc('\n', archive);  
 }
 
-void ecrireModification(struct fichier hd, FILE* archive){
-  fwrite(hd.date, 1, 20, archive);
+void ecrireModification(Fichier hd, FILE* archive){
+  fwrite(hd->date, 1, 20, archive);
   fputc('\n', archive);
 }
 
-void ecrireContenu(struct fichier f, FILE* archive){
+void ecrireContenu(Fichier hd, FILE* archive){
   // Descripteur de fichier;
   int fichier;  
-  fichier = open(f.nom, O_RDONLY, S_IRUSR | S_IWUSR);
+  fichier = open(hd->nom, O_RDONLY, S_IRUSR | S_IWUSR);
 
   //ecrire le contenu du fichier
-  char * buff = malloc(sizeof(char) * f.taille);
+  char * buff = malloc(sizeof(char) * hd->taille);
   lseek(fichier, 0, SEEK_SET);
-  read(fichier, buff, sizeof(char)*f.taille);
-  fwrite(buff, sizeof(char), f.taille, archive);
+  read(fichier, buff, sizeof(char)*hd->taille);
+  fwrite(buff, sizeof(char), hd->taille, archive);
   fputc('\n', archive);  
   close(fichier);
   free(buff);

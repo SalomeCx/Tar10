@@ -29,18 +29,18 @@ FILE* creerArchive(char* nomArchive){
 void ajouterFichier(FILE* archive, char* nomFichier){
 
   char * tmp = malloc(sizeof(struct fichier));
-  struct fichier * hd = initHeader(nomFichier);
+  Fichier hd = initHeader(nomFichier);
 
 
-  ecrireNom(*hd,archive);    
+  ecrireNom(hd,archive);    
 
-  ecrireTaille(*hd,archive, tmp);
+  ecrireTaille(hd,archive, tmp);
 
-  ecrirePermissions(*hd, archive, tmp);
+  ecrirePermissions(hd, archive, tmp);
 
-  ecrireModification(*hd,archive);
+  ecrireModification(hd,archive);
 
-  ecrireContenu(*hd,archive);
+  ecrireContenu(hd,archive);
 
   free(tmp);
 }

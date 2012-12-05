@@ -2,11 +2,11 @@
 #ifndef ECRIRE_H
 #define ECRIRE_H
 
-void ecrireNom(struct fichier hd, FILE* archive);
-void ecrireTaille(struct fichier hd, FILE* archive, char* tmp);
-void ecrirePermissions(struct fichier hd, FILE* archive, char* tmp);
-void ecrireContenu(struct fichier hd, FILE* archive);
-void ecrireModification(struct fichier hd, FILE* archive);
+void ecrireNom(Fichier hd, FILE* archive);
+void ecrireTaille(Fichier hd, FILE* archive, char* tmp);
+void ecrirePermissions(Fichier hd, FILE* archive, char* tmp);
+void ecrireContenu(Fichier hd, FILE* archive);
+void ecrireModification(Fichier hd, FILE* archive);
 
 #endif
 

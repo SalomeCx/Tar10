@@ -39,19 +39,19 @@ int permissions(char* fichier)
   return (permission.st_mode & 0777);
 }
 
-void modification(struct fichier *f)
+void modification(Fichier *f)
 {
   struct stat modify;
-  if (stat((*f).nom, &modify) == -1)
+  if (stat((*f)->nom, &modify) == -1)
     exit(1);
 
   struct tm time = *localtime(&modify.st_mtime);
-  strftime (f->date, 20, "%d/%m/%Y %H:%M:%S", &time);
+  strftime ((*f)->date, 20, "%d/%m/%Y %H:%M:%S", &time);
   }
 
-struct fichier * initHeader(char * fichier)
+Fichier initHeader(char * fichier)
 {
-  struct fichier * header = (struct fichier *) malloc(sizeof(struct fichier *));
+  Fichier header = (struct fichier *) malloc(sizeof(struct fichier *));
   assert(header);
 
   header->date = malloc(sizeof("JJ/MM/AAAA HH:MM:SS"));
@@ -60,12 +60,12 @@ struct fichier * initHeader(char * fichier)
   header->nom = getNom(fichier);
   header->taille = tailleFichier(fichier);
   header->permissions = permissions(fichier);
-  modification(header);
+  modification(&header);
 
   return header;
 }
 
-void rmHeader(struct fichier * header)
+void rmHeader(Fichier header)
 {
   free(header->date);
   free(header);
