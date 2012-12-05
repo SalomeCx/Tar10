@@ -38,11 +38,11 @@ void ecrire_permissions(struct fichier f, FILE* archive, char* tmp){
 //fwrite(" ", 1, 1, archive);
 }
 
-void ecrire_modification(struct fichier f, FILE* archive){
-  modification(&f);
+void ecrire_modification(struct fichier header, FILE* archive){
+  //modification(&f);
   // La date de dernière modification
   
-  fwrite(f.date, 1, sizeof(f.date), archive);
+  fwrite(header.date, 1, sizeof(header.date), archive);
   //fwrite(" ", 1, 1, archive);
   fputc('\n', archive);
 }
