@@ -9,7 +9,7 @@ int main(int argc, char *argv[]) {
   
   // Récupère tous les arguments dans un tableau.
   char* tab[argc - 1];
-  char* nom = "archive.tar";
+  char* nom = "archive.txt";
   for (int i = 0; i < (argc - 1); i++)
     {
       tab[i] = argv[i + 1];

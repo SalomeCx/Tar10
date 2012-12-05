@@ -40,9 +40,6 @@ void ajouter_fichier(FILE* archive, char* nomFichier){
 
   ecrire_modification(f,archive);
 
-  // Pour séparer l'entête du reste.
-  fputc('\n', archive);
-  
   ecrire_contenu(f,archive);
 
   free(tmp);

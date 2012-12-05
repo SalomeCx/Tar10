@@ -18,12 +18,13 @@ void ecrire_taille(struct fichier f, FILE* archive, char* tmp){
   // On écrit la taille du fichier.
   sprintf(tmp, "%d", f.taille);
   fwrite(tmp, 1, sizeof(tmp), archive);
- //fwrite(" ", 1, 1, archive);
+  fputc('\n', archive);
 }
 
 void ecrire_nom(struct fichier f, FILE* archive){
   //nom du fichier
   fwrite(f.nom, 1, sizeof(f.nom), archive);
+  fputc('\n', archive);
 }
 
 void ecrire_permissions(struct fichier f, FILE* archive, char* tmp){
@@ -32,7 +33,8 @@ void ecrire_permissions(struct fichier f, FILE* archive, char* tmp){
   // Les permissions du fichier.
   sprintf(tmp, "%d", f.permissions);
   fwrite(tmp, 1, sizeof(tmp), archive);
-  //fwrite(" ", 1, 1, archive);
+  fputc('\n', archive);  
+//fwrite(" ", 1, 1, archive);
 }
 
 void ecrire_modification(struct fichier f, FILE* archive){
@@ -41,6 +43,7 @@ void ecrire_modification(struct fichier f, FILE* archive){
   
   fwrite(f.date, 1, sizeof(f.date), archive);
   //fwrite(" ", 1, 1, archive);
+  fputc('\n', archive);
 }
 
 void ecrire_contenu(struct fichier f, FILE* archive){
@@ -53,6 +56,7 @@ void ecrire_contenu(struct fichier f, FILE* archive){
   lseek(fichier, 0, SEEK_SET);
   read(fichier, buff, sizeof(char)*f.taille);
   fwrite(buff, sizeof(char), f.taille, archive);
+  fputc('\n', archive);  
   close(fichier);
   free(buff);
 }
