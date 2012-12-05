@@ -55,4 +55,25 @@ void liste(char* nomArchive, char* tabFichiers[], int nbFiles)
   fclose(archive);
 }
 
+//Compresser une archive
+void compresserArchive(char * nomArchive){
+  
+  char str[20];
+  strcpy(str, "gzip ");
+  strcat(str, nomArchive);
+  system(str);
+}
+
+
+//Decompresser une archive
+void decompresserArchive(char * nomArchiveCompresser){
+  
+  char str[20];
+  strcpy(str, "gzip -d ");
+  strcat(str, nomArchiveCompresser);
+  system(str);
+}
+
+
+
   
