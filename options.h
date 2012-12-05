@@ -18,4 +18,6 @@ int extraire(char *nomArchive);
 int compresser(char *nomArchive);
 int supprimer(char *nomArchive,char* fichiers[]);
 int difference(char *nomArchive,char* fichiers[]);
+void compresserArchive(char * nomArchive);
+void decompresserArchive(char * nomArchiveCompresser);
 #endif
