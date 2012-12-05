@@ -17,7 +17,7 @@
 
 // Créer l'archive, et les entêtes.
 
-FILE* creer_archive(char* nomArchive){
+FILE* creerArchive(char* nomArchive){
 
   // Fichier archive.
   FILE* archive;
@@ -26,31 +26,31 @@ FILE* creer_archive(char* nomArchive){
   return archive;
 }
 
-void ajouter_fichier(FILE* archive, char* nomFichier){
+void ajouterFichier(FILE* archive, char* nomFichier){
 
   char * tmp = malloc(sizeof(struct fichier));
-  struct fichier f;
-  f.nom=nomFichier;
+  struct fichier * hd = initHeader(nomFichier);
 
-  ecrire_nom(f,archive);    
 
-  ecrire_taille(f,archive,tmp);
+  ecrireNom(*hd,archive);    
 
-  ecrire_permissions(f,archive,tmp);
+  ecrireTaille(*hd,archive, tmp);
 
-  ecrire_modification(f,archive);
+  ecrirePermissions(*hd, archive, tmp);
 
-  ecrire_contenu(f,archive);
+  ecrireModification(*hd,archive);
+
+  ecrireContenu(*hd,archive);
 
   free(tmp);
 }
 
 void liste(char* nomArchive, char* tabFichiers[], int nbFiles)
 {
-  FILE* archive=creer_archive(nomArchive);
+  FILE* archive=creerArchive(nomArchive);
   for(int i = 0; i<nbFiles; i++)
     { 
-      ajouter_fichier(archive, tabFichiers[i]);
+      ajouterFichier(archive, tabFichiers[i]);
     }
   fclose(archive);
 }

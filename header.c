@@ -46,7 +46,7 @@ void modification(struct fichier *f)
     exit(1);
 
   struct tm time = *localtime(&modify.st_mtime);
-  strftime (f->date, 20/*sizeof(f->date)*/, "%d/%m/%Y %H:%M:%S", &time);
+  strftime (f->date, 20, "%d/%m/%Y %H:%M:%S", &time);
   }
 
 struct fichier * initHeader(char * fichier)
@@ -61,8 +61,6 @@ struct fichier * initHeader(char * fichier)
   header->taille = tailleFichier(fichier);
   header->permissions = permissions(fichier);
   modification(header);
-
-  printf("%s, %d, %d, %s\n", header->nom, header->taille, header->permissions, header->date);
 
   return header;
 }

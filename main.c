@@ -16,8 +16,6 @@ int main(int argc, char *argv[]) {
       tab[i] = argv[i + 1];
     }
 
-  initHeader(argv[1]);
-
   liste(nom, tab, argc - 1);
 
   int opt;

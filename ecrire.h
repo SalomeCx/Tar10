@@ -1,9 +1,12 @@
 // -*- coding: utf-8 -*- 
 #ifndef ECRIRE_H
 #define ECRIRE_H
-void ecrire_taille(struct fichier f, FILE* archive, char* tmp);
-void ecrire_nom(struct fichier f, FILE* archive);
-void ecrire_permissions(struct fichier f, FILE* archive, char* tmp);
-void ecrire_contenu(struct fichier f, FILE* archive);
-void ecrire_modification(struct fichier f, FILE* archive);
+
+void ecrireNom(struct fichier hd, FILE* archive);
+void ecrireTaille(struct fichier hd, FILE* archive, char* tmp);
+void ecrirePermissions(struct fichier hd, FILE* archive, char* tmp);
+void ecrireContenu(struct fichier hd, FILE* archive);
+void ecrireModification(struct fichier hd, FILE* archive);
+
 #endif
+
