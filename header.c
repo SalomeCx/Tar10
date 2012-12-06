@@ -39,19 +39,27 @@ void modification(Fichier *f)
   struct stat modify;
   if (stat((*f)->nom, &modify) == -1)
     exit(1);
-
+    
+    
   struct tm time = *localtime(&modify.st_mtime);
   strftime ((*f)->date, 20, "%d/%m/%Y %H:%M:%S", &time);
   }
 
 Fichier initHeader(char * fichier)
 {
-  Fichier header = (struct fichier *) malloc(sizeof(struct fichier *));
+  Fichier header = (Fichier) malloc(sizeof(struct fichier));
   assert(header);
 
   memset(header->date, '\0', 20);
   memset(header->nom, '\0', 100);
-  strcpy(header->nom, fichier);
+  //for (int i = 0; i < 100; i++)
+  //header->nom[i] = '\0';
+
+
+  if (fichier) 
+    strcpy(header->nom, fichier);
+  printf("%s\n", header->nom);
+  
   header->taille = tailleFichier(fichier);
   header->permissions = permissions(fichier);
   modification(&header);
@@ -61,6 +69,5 @@ Fichier initHeader(char * fichier)
 
 void rmHeader(Fichier header)
 {
-  free(header->date);
   free(header);
 }
