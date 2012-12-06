@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <getopt.h>
+#include <string.h>
 #include "options.h"
 #include "header.h"
 #include "lire.h"
@@ -16,17 +17,16 @@ int main(int argc, char *argv[]) {
     {
       tab[i] = argv[i + 1];
     }
-
   liste(nomArchive, tab, argc - 1);
+  
 
-  //Fichier * headers = malloc(sizeof(Fichier) * 10);
+  Fichier * headers = malloc(sizeof(struct fichier) * 10);
 
-  int nbEntetes = lireEntetes(nomArchive);
-  printf("%d\n", nbEntetes);
-  //printf("%lu\n", sizeof(nom));
-  //printf("%s", nomLire);
+  int compteur = 1;
 
-  //free(headers);
+  int nbEntetes = lireEntetes(nomArchive, headers, &compteur);
+  printf("%d, %d\n", nbEntetes, compteur);
+  free(headers);
 
   int opt;
   char format[]="hvtx:crufzdm:";

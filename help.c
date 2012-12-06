@@ -5,7 +5,7 @@
 
 void helpc(void)
 {
-  printf("-c\t:\tCrée une archive à partir de la liste de fichiers en argument.\n");
+  printf("-c\t:\tCrée une archive à partir de la liste de fichiers en argument. \n");
 }
 
 void helpv(void)
@@ -35,7 +35,7 @@ void helpx(void)
 
 void helpf(void)
 {
-  printf("-f\t:\tPrécise le nom du fichier d'archive.\n");
+  printf("-f\t:\tPrécise le nom du fichier d'archive. \n");
 }
 
 void helpz(void)

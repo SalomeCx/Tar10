@@ -4,7 +4,7 @@
 
 #include "header.h"
 
-int lireEntetes(char * nomArchive);
+int lireEntetes(char * nomArchive, Fichier * listHd, int * compteur);
 
 
 #endif

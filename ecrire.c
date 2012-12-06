@@ -11,13 +11,13 @@
 #include <inttypes.h>
 #include <string.h>
 #include <time.h>
+#include <assert.h>
 #include "options.h"
 
 
-void ecrireNom(Fichier hd, FILE* archive){
-  //nom du fichier
-  fwrite(hd->nom, 1, strlen(hd->nom), archive);
-  fputc('\n', archive);
+void ecrireHeader(Fichier hd, FILE* archive){
+  fwrite(hd, 1, sizeof(struct fichier), archive);
+  //fputc('\n', archive);
 }
 
 void ecrireTaille(Fichier hd, FILE* archive, char* tmp){
@@ -41,9 +41,10 @@ void ecrireContenu(Fichier hd, FILE* archive){
   // Descripteur de fichier;
   int fichier;  
   fichier = open(hd->nom, O_RDONLY, S_IRUSR | S_IWUSR);
-
+  //fputc('\n', archive);
   //ecrire le contenu du fichier
-  char * buff = malloc(sizeof(char) * hd->taille);
+  char * buff = malloc(sizeof(char) * (hd->taille));
+  assert(buff);
   lseek(fichier, 0, SEEK_SET);
   read(fichier, buff, sizeof(char)*hd->taille);
   fwrite(buff, sizeof(char), hd->taille, archive);
@@ -51,3 +52,4 @@ void ecrireContenu(Fichier hd, FILE* archive){
   close(fichier);
   free(buff);
 }
+

@@ -52,17 +52,26 @@ Fichier initHeader(char * fichier)
 
   memset(header->date, '\0', 20);
   memset(header->nom, '\0', 100);
-  //for (int i = 0; i < 100; i++)
-  //header->nom[i] = '\0';
-
 
   if (fichier) 
     strcpy(header->nom, fichier);
-  printf("%s\n", header->nom);
   
   header->taille = tailleFichier(fichier);
   header->permissions = permissions(fichier);
   modification(&header);
+
+  return header;
+}
+
+Fichier headerVide(void)
+{
+  Fichier header = (Fichier) malloc(sizeof(struct fichier));
+  assert(header);
+
+  memset(header->date, '\0', 20);
+  memset(header->nom, '\0', 100);
+  header->taille = 0;
+  header->permissions = 0;
 
   return header;
 }

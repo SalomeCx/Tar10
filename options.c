@@ -9,6 +9,7 @@
 #include <stdint.h>
 #include <netinet/in.h>
 #include <inttypes.h>
+#include <assert.h>
 #include <string.h>
 #include <time.h>
 #include "options.h"
@@ -27,22 +28,10 @@ FILE* creerArchive(char* nomArchive){
 }
 
 void ajouterFichier(FILE* archive, char* nomFichier){
-
-  char * tmp = malloc(sizeof(struct fichier));
   Fichier hd = initHeader(nomFichier);
 
-
-  ecrireNom(hd,archive);    
-
-  ecrireTaille(hd,archive, tmp);
-
-  ecrirePermissions(hd, archive, tmp);
-
-  ecrireModification(hd,archive);
-
+  ecrireHeader(hd,archive);   
   ecrireContenu(hd,archive);
-
-  free(tmp);
 }
 
 void liste(char* nomArchive, char* tabFichiers[], int nbFiles)

@@ -14,6 +14,7 @@ int tailleFichier(char* fichier);
 int permissions(char* fichier);
 void modification(Fichier *f);
 Fichier initHeader(char * fichier);
+Fichier headerVide(void);
 void rmHeader(Fichier header);
 
 #endif
