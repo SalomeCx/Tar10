@@ -15,11 +15,6 @@
 
 #include "header.h"
 
-char* getNom(char * fichier)
-{
-  return fichier;
-}
-
 /* Retourne la taille du fichier sous forme d'un entier. */
 int tailleFichier(char* fichier)
 {
@@ -54,10 +49,9 @@ Fichier initHeader(char * fichier)
   Fichier header = (struct fichier *) malloc(sizeof(struct fichier *));
   assert(header);
 
-  header->date = malloc(sizeof("JJ/MM/AAAA HH:MM:SS"));
-  assert(header->date);
-  
-  header->nom = getNom(fichier);
+  memset(header->date, '\0', 20);
+  memset(header->nom, '\0', 100);
+  strcpy(header->nom, fichier);
   header->taille = tailleFichier(fichier);
   header->permissions = permissions(fichier);
   modification(&header);

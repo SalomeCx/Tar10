@@ -2,15 +2,14 @@
 #define HEADER_H
 
 struct fichier{
-  char* nom;
+  char nom[100];
   int taille;
   int permissions;
-  char* date/*[sizeof "JJ/MM/AAAA HH:MM:SS"]*/;
+  char date[20]/*[sizeof "JJ/MM/AAAA HH:MM:SS"]*/;
 };
 
 typedef struct fichier * Fichier;
 
-char* getNom(char * fichier);
 int tailleFichier(char* fichier);
 int permissions(char* fichier);
 void modification(Fichier *f);
