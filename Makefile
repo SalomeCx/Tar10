@@ -1,6 +1,6 @@
 
 CC= gcc
-CFLAGS= -std=c99 -Wall -Werror -g
+CFLAGS= -std=gnu99 -Wall -Werror -g
 OUTFILE= tar10
 SRC=$(wildcard *.c)
 
