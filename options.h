@@ -12,6 +12,7 @@ int listerArchive(char *nomArchive);
 int mettreAJour(char *nomArchive, char* fichiers[]);
 int extraire(char *nomArchive);
 int compresser(char *nomArchive);
+void miseAJour(char * nomArchive, char * fichier);
 int supprimer(char *nomArchive,char* fichiers[]);
 int difference(char *nomArchive,char* fichiers[]);
 void rmFile(char * nomArchive, char * fichier);

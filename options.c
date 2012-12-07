@@ -85,7 +85,21 @@ void rmFile(char * nomArchive, char * fichier)
 }
 
 
+void miseAJour(char * nomArchive, char * fichier){
+  FILE * archive = fopen(nomArchive, "rw");
+  Fichier headerFichier = initHeader(fichier);
+  int nb = nbEntetes(nomArchive);
+  Fichier * headers = malloc(sizeof(struct fichier) * nb);
+  lireEntetes(nomArchive, headers, nb);
 
+  for (int i = 0; i < nb; i++){
+    if(strcmp(headers[i]->nom, headerFichier->nom) == 0)
+      if(strcmp(headers[i]->date, headerFichier->date) != 0){
+	rmFile(nomArchive, fichier);
+	ajouterFichier(archive, fichier);
+      }
+  }
+}
 
 
 //Compresser une archive
