@@ -20,7 +20,6 @@ int lireEntetes(char * nomArchive, Fichier * listHd, int compteur){
   if (archive == NULL)
     return -1;
 
-  printf("%d\n", compteur);
   for (int i = 0; i < compteur; i++)
       {
 	Fichier hder = headerVide();
@@ -28,7 +27,6 @@ int lireEntetes(char * nomArchive, Fichier * listHd, int compteur){
 	  return 1;
 	fseek(archive, hder->taille, SEEK_CUR);
 	listHd[i] = malloc(sizeof(struct fichier));
-	printf("%lo, %lo\n", sizeof(listHd[i]), sizeof(hder));
 	listHd[i] = hder;
 	
       }
