@@ -95,7 +95,7 @@ void rmFile(char * nomArchive, char * fichier)
   free(headers);
 }
 
-
+//met a jour l'archive si la date de modification du fichier passe en parametre est differente de celle du fichier correspondant contenu dans l'archive
 void miseAJour(char * nomArchive, char * fichier){
   FILE * archive = fopen(nomArchive, "rw");
   Fichier headerFichier = initHeader(fichier);
