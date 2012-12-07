@@ -17,6 +17,8 @@
 #include "header.h"
 #include "lire.h"
 
+// Ajoute le fichier nomFichier à l'archive archive.
+// Attention, l'archive doit être ouverte en "a+" pour ne pas effacer les fichiers déjà présents.
 void ajouterFichier(FILE* archive, char* nomFichier){
   Fichier hd = initHeader(nomFichier);
 
@@ -24,6 +26,8 @@ void ajouterFichier(FILE* archive, char* nomFichier){
   ecrireContenu(hd,archive);
 }
 
+// Ajoute à l'archive nomArchive tous les fichiers contenus dans tabFichiers[].
+// nbFiles représente le nombre de fichiers à rajouter, c'est à dire la taille de tabFichier[].
 void liste(char* nomArchive, char* tabFichiers[], int nbFiles)
 {
   FILE* archive = fopen(nomArchive, "a+");
@@ -34,16 +38,21 @@ void liste(char* nomArchive, char* tabFichiers[], int nbFiles)
   fclose(archive);
 }
 
+// Enlève le fichier fichier de l'archive nomArchive.
 void rmFile(char * nomArchive, char * fichier)
 {
+  // On recherche le nombre de fichiers dans nomArchive
   int nb = nbEntetes(nomArchive);
-  // Initialisation.
+  // Initialisation et création des headers.
   Fichier * headers = malloc(sizeof(struct fichier) * nb);
   lireEntetes(nomArchive, headers, nb);
 
   FILE* archive = fopen(nomArchive, "rw");
 
+  // offEcrire est la position du début du header du fichier à enlever dans l'archive.
   long offEcrire = 0;
+  // reste est la taille de tout ce qui se trouve après la fin du fichier à enlever.
+  long reste = 0;
 
   for (int i = 0; i < nb; i++)
     {
@@ -51,7 +60,6 @@ void rmFile(char * nomArchive, char * fichier)
       if (strcmp(fichier, headers[i]->nom) == 0)
 	{
 	  // On récupère la taille de ce qu'il faut écrire.
-	  long reste = 0;
 	  for (int j = (i + 1); j < nb; j++)
 	    {
 	      reste += sizeof(struct fichier);
@@ -59,10 +67,11 @@ void rmFile(char * nomArchive, char * fichier)
 	    }
 
 	  char * buff = malloc(reste);
+	  // On se place juste après le fichier à supprimer, et on lit tout le reste.
  	  fseek(archive, (offEcrire + sizeof(struct fichier) + headers[i]->taille), SEEK_SET);
-	  fread(buff, reste,1, archive);
-	  printf("%s\n", buff);
+	  fread(buff, 1, reste, archive);
 
+	  // On se replace au début du fichier à supprimer et on écrit par dessus.
 	  fseek(archive, offEcrire, SEEK_SET);
 	  fwrite(buff, reste, 1, archive);
 	  break;
@@ -74,14 +83,16 @@ void rmFile(char * nomArchive, char * fichier)
 	  offEcrire += headers[i]->taille;
 	}
     }
-
+  fclose(archive);
+  // On troncature le fichier de (- (taille du fichier supprimé + taille du header)) car on
+  // réécrit par dessus le reste de l'archive.
+  truncate(nomArchive, (offEcrire + reste));
+  // On désalloue les headers.
   for (int i = 0; i < nb; i++)
     {
       rmHeader(headers[i]);
     }
   free(headers);
-
-  fclose(archive);
 }
 
 
