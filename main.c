@@ -19,7 +19,7 @@ int main(int argc, char *argv[]) {
     }
   liste(nomArchive, tab, argc - 1);
   
-    int nb = nbEntetes(nomArchive);
+  int nb = nbEntetes(nomArchive);
   // Initialisation.
   Fichier * headers = malloc(sizeof(struct fichier) * nb);
 
