@@ -12,7 +12,7 @@ int main(int argc, char *argv[]) {
   
   // Récupère tous les arguments dans un tableau.
   char* tab[argc - 1];
-  char* nomArchive = "archive.txt";
+  char* nomArchive = "archive.tar";
   for (int i = 0; i < (argc - 1); i++)
     {
       tab[i] = argv[i + 1];
@@ -25,14 +25,12 @@ int main(int argc, char *argv[]) {
 
   int nbEntetes = lireEntetes(nomArchive, headers, nb);
 
-  printf("%lo, %d\n", sizeof(headers), nbEntetes);
-
   for (int i = 0; i < nb; i++)
     {
       printf("Nom: %s\n", headers[i]->nom);
       printf("Taille: %d\n", headers[i]->taille);
       printf("Droits: %d\n", headers[i]->permissions);
-      printf("Date: %s\n\n\n", headers[i]->date);
+      printf("Date: %s\n\n", headers[i]->date);
       rmHeader(headers[i]);
     }
 
