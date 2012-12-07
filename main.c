@@ -19,12 +19,12 @@ int main(int argc, char *argv[]) {
     }
   liste(nomArchive, tab, argc - 1);
   
+    int nb = nbEntetes(nomArchive);
   // Initialisation.
-  Fichier * headers = malloc(sizeof(struct fichier)*10);
-
-  int nb = nbEntetes(nomArchive);
+  Fichier * headers = malloc(sizeof(struct fichier) * nb);
 
   int nbEntetes = lireEntetes(nomArchive, headers, nb);
+
   printf("%lo, %d\n", sizeof(headers), nbEntetes);
 
   for (int i = 0; i < nb; i++)
