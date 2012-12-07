@@ -4,10 +4,6 @@
 
 #include "header.h"
 
-FILE* creerArchive(char* nomArchive);
-//int tailleFichier(char * fichier);
-//int permissions(char* fichier);
-//void modification(struct fichier *f);
 int aide();
 void ajouterFichier(FILE* archive, char* nomFichier);
 void liste(char *nomArchive, char* fichiers[], int nbFiles);
@@ -18,6 +14,8 @@ int extraire(char *nomArchive);
 int compresser(char *nomArchive);
 int supprimer(char *nomArchive,char* fichiers[]);
 int difference(char *nomArchive,char* fichiers[]);
+void rmFile(char * nomArchive, char * fichier);
 void compresserArchive(char * nomArchive);
 void decompresserArchive(char * nomArchiveCompresser);
+
 #endif
