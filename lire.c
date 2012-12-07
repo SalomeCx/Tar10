@@ -20,9 +20,6 @@ int lireEntetes(char * nomArchive, Fichier * listHd, int compteur){
   if (archive == NULL)
     return -1;
 
-  // Pour être sûr de la taille de mon tableau.
-  listHd = realloc(listHd, compteur * sizeof(struct fichier));
-  assert(listHd);
   printf("%d\n", compteur);
   for (int i = 0; i < compteur; i++)
       {
@@ -35,6 +32,7 @@ int lireEntetes(char * nomArchive, Fichier * listHd, int compteur){
 	listHd[i] = hder;
 	
       }
+
   fclose(archive);
   return 0;
   // Il faudra penser à free les headers dans le main.
