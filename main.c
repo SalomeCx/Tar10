@@ -7,6 +7,7 @@
 #include "options.h"
 #include "header.h"
 #include "lire.h"
+#include "vworp.h"
 
 int main(int argc, char *argv[]) {
   
@@ -35,6 +36,7 @@ int main(int argc, char *argv[]) {
     }
 
   free(headers);
+  vworp();
 
   int opt;
   char format[]="hvtx:crufzdm:";
