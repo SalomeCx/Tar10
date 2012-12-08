@@ -14,23 +14,24 @@
 #include <assert.h>
 #include "options.h"
 
-// On écrit le header en entier directement dans la structure.
+/* On écrit le header en entier directement dans la structure. */
 void ecrireHeader(Fichier hd, FILE* archive){
   fwrite(hd, 1, sizeof(struct fichier), archive);
 }
 
 void ecrireContenu(Fichier hd, FILE* archive){
-  // Descripteur de fichier;
+  /* Descripteur de fichier. */
   int fichier;  
   fichier = open(hd->nom, O_RDONLY, S_IRUSR | S_IWUSR);
-  //ecrire le contenu du fichier
+  /* Ecrire le contenu du fichier. */
   char * buff = malloc(sizeof(char) * (hd->taille));
   assert(buff);
-  // On se place au début du fichier
+  /* On se place au début du fichier. */
   lseek(fichier, 0, SEEK_SET);
-  // On lit le tout.
+  /* On lit le tout. */
   read(fichier, buff, sizeof(char)*hd->taille);
-  // On écrit tout. Le fichier est ouvert en a+, donc on n'écrase pas les headers.
+  /* On écrit tout. Le fichier doit être ouvert en "a+" pour ne pas écraser les headers 
+     ou les autres fichiers. */
   fwrite(buff, sizeof(char), hd->taille, archive);
   close(fichier);
   free(buff);
