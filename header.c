@@ -34,6 +34,7 @@ int permissions(char* fichier)
   return (permission.st_mode & 0777);
 }
 
+/* Change la date de modification dans le header f. */
 void modification(Fichier *f)
 {
   struct stat modify;
@@ -45,11 +46,15 @@ void modification(Fichier *f)
   strftime ((*f)->date, 20, "%d/%m/%Y %H:%M:%S", &time);
   }
 
+/* Crée un header à partir du fichier fichier. 
+   Cette fonction a été librement inspirée de la fonction du même nom du projet de Thomas PIZON, qu'il a gracieusement mis à notre disposition. 
+   Ce projet est disponible à l'adresse https://github.com/NoZip/projet-systeme-in501 */
 Fichier initHeader(char * fichier)
 {
   Fichier header = (Fichier) malloc(sizeof(struct fichier));
   assert(header);
 
+  /* On initialise les char[]. */
   memset(header->date, '\0', 20);
   memset(header->nom, '\0', 100);
 
@@ -63,6 +68,7 @@ Fichier initHeader(char * fichier)
   return header;
 }
 
+/* Initialise un header vide. */
 Fichier headerVide(void)
 {
   Fichier header = (Fichier) malloc(sizeof(struct fichier));
@@ -76,6 +82,7 @@ Fichier headerVide(void)
   return header;
 }
 
+/* Libération de la mémoire des headers. */
 void rmHeader(Fichier header)
 {
   free(header);
