@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include "help.h"
 
-void manuel(int i)
+void manuel()
 {
   printf("-c\t:\tCrée une archive à partir de la liste de fichiers en argument.\n");
   printf("-v\t:\tAffiche des détails sur l'exécution de la commande.\n");
@@ -16,8 +16,7 @@ void manuel(int i)
   printf("-d\t:\tSupprime le fichier en paramètre de l'archive.\n");
   printf("-sparse\t:\tEconomise la place dans les fichiers contenants beaucoup de zéros consécutifs.\n");
   printf("-m\t:\tAffiche les différences entre les fichiers archivés et les fichiers existants.\n");
-  if (i == 42)
-    printf("-w\t:\tEaster egg.");
+
 }
 
 void usage(void)

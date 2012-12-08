@@ -2,7 +2,7 @@
 #ifndef HELP_H
 #define HELP_H
 
-void manuel(int i);
+void manuel();
 void usage(void);
 
 #endif

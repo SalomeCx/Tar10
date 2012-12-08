@@ -8,76 +8,109 @@
 #include "header.h"
 #include "lire.h"
 #include "vworp.h"
-
+#include "help.h"
+char * archive;
 int main(int argc, char *argv[]) {
-  
-  // Récupère tous les arguments dans un tableau.
-  char* tab[argc - 1];
-  char* nomArchive = "archive.tar";
-  for (int i = 0; i < (argc - 1); i++)
+   char* tab[argc - 4];
+   //On ajouter les fichiers a archiver dans un tableau
+   for (int i = 0; i < (argc -4); i++)
+     {
+       tab[i] = argv[i + 4];
+     }
+
+  int nb;
+  static int verbose_flag;
+  int c;
+     
+  while (1)
     {
-      tab[i] = argv[i + 1];
+       static struct option long_options[] =
+	{
+	  {"verbose", no_argument,       &verbose_flag, 1},
+	  {"brief",   no_argument,       &verbose_flag, 0},
+	  {"add",     no_argument,       0, 'a'},
+	  {"append",  no_argument,       0, 'b'},
+	  {"delete",  required_argument, 0, 'd'},
+	  {"create",  required_argument, 0, 'c'},
+	  {"file",    required_argument, 0, 'f'},
+	  {0, 0, 0, 0}
+	};
+      
+      int option_index = 0;
+     
+      c = getopt_long (argc, argv, "vwc:txhr:u:f:zd:m:",
+		       long_options, &option_index);      
+	
+      if (c == -1)
+	break;
+     
+      switch (c)
+	{
+	case 'c':
+	  nb = argc - 4;
+	  liste(archive, tab, nb);
+	  break;
+
+
+	case 'v':
+	  break;
+
+	  
+	case 't':
+	  listerFichier(archive);
+	  break;
+     
+
+	case 'x':
+	  extraireFichiers(archive);
+	  break;
+
+     
+	case 'h':
+	  manuel();
+	  break;
+
+     
+	case 'r':
+	  nb = argc - 4;
+	  liste(archive, tab, nb);
+	  break;
+
+
+	case 'u':
+	  for(int i = 0; i<nb; i++)
+	    miseAJour(archive, tab[i]);
+	  break;
+
+
+	case 'f':
+	  archive = optarg;
+	  break;
+
+
+	case 'z':
+	  compresserArchive(archive);
+	  break;
+
+
+
+	case 'd':
+	  rmFile(archive, tab[0]);
+	  break;
+
+
+	case 'w':
+	  vworp();
+	  break;
+
+
+	case 'm':
+	  difference(archive, tab, nb);
+	  break;
+
+     
+	default:
+	  abort ();
+	}
     }
-  liste(nomArchive, tab, argc - 1);
-  
-  int nb = nbEntetes(nomArchive);
-  // Initialisation.
-  Fichier * headers = malloc(sizeof(struct fichier) * nb);
-
-  lireEntetes(nomArchive, headers, nb);
-
-  for (int i = 0; i < nb; i++)
-    {
-      printf("Nom: %s\n", headers[i]->nom);
-      printf("Taille: %d\n", headers[i]->taille);
-      printf("Droits: %d\n", headers[i]->permissions);
-      printf("Date: %s\n\n", headers[i]->date);
-      rmHeader(headers[i]);
-    }
-
-  free(headers);
-  vworp();
-
-  int opt;
-  char format[]="hvtx:crufzdm:";
-  
-  while ((opt = getopt(argc, argv, format)) != -1) {  
-    
-    switch (opt) {  
-    case 'h':  
-      printf ("Paramètre h recontré\n");  
-      break;  
-    case 'v':  
-      printf ("Paramètre v recontré\n");  
-      break;  
-    case 't':  
-      printf ("Paramètre t rencontré avec argument %s\n", optarg);  
-      break;  
-    case 'x':  
-      printf ("Paramètre x rencontré avec argument %s\n", optarg);  
-      break;  
-    case 'c':  
-      printf ("Paramètre c recontré\n");  
-      break;  
-    case 'r':  
-      printf ("Paramètre r recontré\n");  
-      break;  
-    case 'u':  
-      printf ("Paramètre u rencontré avec argument %s\n", optarg);  
-      break;  
-    case 'f':  
-      printf ("Paramètre f rencontré avec argument %s\n", optarg);  
-      break;
-    case 'z':  
-      printf ("Paramètre z recontré\n");  
-      break;  
-    case 'd':  
-      printf ("Paramètre d recontré\n");  
-      break;  
-    case 'm':  
-      printf ("Paramètre m rencontré avec argument %s\n", optarg);  
-      break;    
-    }  
-  }
-  return EXIT_SUCCESS; 
 }

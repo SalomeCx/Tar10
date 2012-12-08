@@ -227,3 +227,44 @@ void difference(char *nomArchive, char *fichier[], int nbFichiers){
   free(headers);
 }
 
+/* Extrait tous les fichiers contenus dans l'archive. N'efface pas ces fichiers de l'archive. 
+   Les fichiers extraites n'ont malhereusement pas les même droit et date de dernieère modification que les fichiers dans l'archive.*/
+void extraireFichiers(char * nomArchive)
+{
+    int nb = nbEntetes(nomArchive);
+    Fichier * headers = malloc(sizeof(struct fichier) * nb);
+    lireEntetes(nomArchive, headers, nb);
+    FILE * archive = fopen(nomArchive, "r");
+   
+    //long cpt = 0;
+   
+    /* On s'assure que l'on est au début de l'archive. */
+    fseek(archive, 0, SEEK_SET);
+   
+    for (int i = 0; i < nb; i++)
+    {
+        /* A chaque tour de boucle, on ignore les headers. */
+        fseek(archive, sizeof(struct fichier), SEEK_CUR);
+        char * buff = malloc(sizeof(char *) * headers[i]->taille);
+        /* On crée un fichier du nom voulu. S'il existe déjà, il est écrasé à cause du "w+". */
+        FILE * file = fopen(headers[i]->nom, "w+");
+        /* On lit le fichier dans l'archive. */
+        fread(buff, 1, headers[i]->taille, archive);
+        /* On l'écrit dans le nouveau fichier. */
+        fwrite(buff, 1, headers[i]->taille, file);
+        fclose(file);
+        free(buff);
+    }
+}
+
+  void listerFichier(char * nomArchive){
+    int nb = nbEntetes(nomArchive);
+    Fichier * headers = malloc(sizeof(struct fichier) * nb);
+    lireEntetes(nomArchive, headers, nb);
+    for (int i = 0; i < nb; i++)
+      {
+	printf("%s\n", headers[i]->nom);
+	rmHeader(headers[i]);
+      }
+    free(headers);
+  }
