@@ -23,7 +23,7 @@ int main(int argc, char *argv[]) {
   // Initialisation.
   Fichier * headers = malloc(sizeof(struct fichier) * nb);
 
-  int nbEntetes = lireEntetes(nomArchive, headers, nb);
+  lireEntetes(nomArchive, headers, nb);
 
   for (int i = 0; i < nb; i++)
     {

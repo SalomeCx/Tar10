@@ -47,7 +47,7 @@ void rmFile(char * nomArchive, char * fichier)
   Fichier * headers = malloc(sizeof(struct fichier) * nb);
   lireEntetes(nomArchive, headers, nb);
 
-  FILE* archive = fopen(nomArchive, "rw");
+  FILE* archive = fopen(nomArchive, "r+");
 
   // offEcrire est la position du début du header du fichier à enlever dans l'archive.
   long offEcrire = 0;
