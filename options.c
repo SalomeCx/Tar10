@@ -133,5 +133,21 @@ void decompresserArchive(char * nomArchiveCompresser){
 }
 
 
+//ne fonctionne pas
+//duplication de code
+void difference(char *nomArchive, char *fichier){
+  Fichier headerFichier = initHeader(fichier);
+  int nb = nbEntetes(nomArchive);
+  Fichier * headers = malloc(sizeof(struct fichier) * nb);
+  lireEntetes(nomArchive, headers, nb);
+  for (int i = 0; i < nb; i++){
+    if(strcmp(headers[i]->nom, fichier) == 0){
+      FILE *fichierExtrait = fopen(headers[i]->nom, "rw");
+      ecrireHeader(headers[i],fichierExtrait);
+      ecrireContenu(headers[i],fichierExtrait);
+      const char* cmd = "./diff";
+      execlp(cmd,fichier,headers[i]->nom,NULL);
+    }
+  } free(headers);
+}
 
-  
