@@ -6,5 +6,6 @@
 
 int lireEntetes(char * nomArchive, Fichier * listHd, int compteur);
 int nbEntetes(char * nomArchive);
+long chercherFichier(char * nomArchive, char * file);
 
 #endif

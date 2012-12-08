@@ -20,4 +20,7 @@ void manuel(int i)
     printf("-w\t:\tEaster egg.");
 }
 
-
+void usage(void)
+{
+  printf("Utilisation: ./tar10 <cdtrux>\n Pour afficher l'aide, ./tar10 -h\n\n");
+}

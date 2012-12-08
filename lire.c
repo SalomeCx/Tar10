@@ -63,3 +63,35 @@ int nbEntetes(char * nomArchive)
 
   return cpt;
 }
+
+// Retourne la position du fichier file dans l'archive nomArchive.
+// Duplication de code avec rmFile (dans options.c).
+long chercherFichier(char * nomArchive, char * file)
+{
+  long position = 0;
+
+  int nb = nbEntetes(nomArchive);
+
+  Fichier * headers = malloc(sizeof(struct fichier) * nb);
+  lireEntetes(nomArchive, headers, nb);
+
+  FILE * archive = fopen(nomArchive, "r+");
+
+  for (int i = 0; i < nb; i++)
+    {
+      // Une fois que l'on a trouvé le fichier correspondant dans l'archive.
+      if (strcmp(file, headers[i]->nom) == 0)
+	{
+	  fclose(archive);
+	  return position;
+	}
+      else
+	{
+	  // Tant qu'on ne trouve pas le fichier, on avance de la taille du fichier courant + la taille de son header.
+	  position += sizeof(struct fichier);
+	  position += headers[i]->taille;
+	}
+    }
+  fclose(archive);
+  return position;
+}

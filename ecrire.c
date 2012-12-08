@@ -17,7 +17,7 @@
 // On écrit le header en entier directement dans la structure.
 void ecrireHeader(Fichier hd, FILE* archive){
   fwrite(hd, 1, sizeof(struct fichier), archive);
- }
+}
 
 void ecrireContenu(Fichier hd, FILE* archive){
   // Descripteur de fichier;
