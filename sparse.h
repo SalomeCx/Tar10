@@ -1,6 +1,18 @@
+/*
 // -*- coding: utf-8 -*- 
-#ifndef OPTIONS_H
-#define OPTIONS_H
+#ifndef SPARSE_H
+#define SPARSE_H
+
+typedef struct sparse * Sparse;
+//implementation Yale Sparse Matrix
+struct sparse{
+  int **matrice;
+  int nbLignes;
+  int *ja;
+  int *a;
+  int *ia;
+  const int nbColonnes;
+}nbColonnes = 300;
 
 int** nbLignes(int **matrice);
 
@@ -8,19 +20,20 @@ int** nbLignes(int **matrice);
 void ajouterAlloc(int *i);
 
 //calcul de IA pour sparse
-int* calculIa(int **matrice, int *a,int nbLignes);
+void calculIa(struct sparse sp);
 
 //calcul de JA pour sparse
-int* calculerJa(int **matrice,int *a,int nbLignes);
+void calculerJa(struct sparse sp);
 
-int* calculerA(char **matrice);
+void calculerA(struct sparse sp);
 
 void sparse(char *fichier);
 
-int** matrice(char *fichier);
+void matrice(struct sparse sp,char *fichier);
 
-void liberer(int **matrice,int *a, int *ai, int *aj);
+void liberer(struct sparse sp);
 
-int* restaurerSparse(int **buff, int *a, int *ai, int *aj);
+void restaurerSparse(struct sparse sp);
 
 #endif
+*/

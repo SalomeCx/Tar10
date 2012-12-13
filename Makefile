@@ -1,8 +1,8 @@
 
-CC= gcc
-CFLAGS= -std=gnu99 -Wall -Werror -g
-OUTFILE= tar10
-SRC=$(wildcard *.c)
+CC = gcc
+CFLAGS = -std=gnu99 -Wall -Werror -g
+OUTFILE = tar10
+SRC = $(wildcard *.c)
 
 all: $(OUTFILE)
 $(OUTFILE): $(SRC) 
@@ -10,8 +10,5 @@ $(OUTFILE): $(SRC)
 
 .PHONY: clean mrproper
 clean:
-	rm -f $(OUTFILE)
-
-mrproper: clean
-	rm -f *~
-	rm -f *.tar		
+	$(RM) $(OUTFILE)
+	$(RM) *~
