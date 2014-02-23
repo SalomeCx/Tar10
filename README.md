@@ -1,30 +1,22 @@
 ***************************************************************
 *                                                             *
-*                          Réseau                             * 
-*               Yasin SENEL & Salomé COAVOUX                  *
+*                  Programmation Système                      * 
+*               Grégory EMIRIAN & Yasin SENEL &               * 
+*                      Salomé COAVOUX                         *
 *                                                             *
 ***************************************************************
 
-Outils Utilisés :
-Java, XML
+Outil Utilisé :
+C
 
-En partenariat avec: Aymeric MIVIELLE & Jérémie BONAL & Matthieu DESPLAT & Grégory EMIRIAN.
+Ce projet a pour but de reproduire la commande système tar
+(création et compression d'archives)
 
-Mode d'emploi:
-
-1. Si vous n'avez pas nos sources, récupérez-les grâce à la commande
-git clone https://github.com/SalomeCx/Social.git
-
-2. Compilez le programme avec la commande
-javac *.java
-
-3. Modifiez le fichier de configuration "annuaire.xml" pour être en connexion avec vos amis.
-Choisissez leur nom d'utilisateur et le nom de leur host.
-Vous n'êtes pas obligés de modifier les deux champs suivants, ils seront modifiés
-automatiquement en fonction des liens d'amitié que vous créez.
-/!\ Ne modifiez pas le modèle XML du fichier de configuration, et respectez-le.
-
-4. Lancez le programme avec la commande
-java Start &
-
-5. Restez en contact avec tous vos amis.
+Les principales fonctionnalités sont :
+    - Ajout d'un fichier
+	- Compression d'une archive
+	- Décompression d'une archive
+	- Mise à jour d'une archive
+	- Lecture d'une archive
+	- Suppression d'un fichier
+	- Extraction de l'archive
